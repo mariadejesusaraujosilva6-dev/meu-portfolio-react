@@ -1,36 +1,67 @@
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import minhaFoto from "./assets/foto-perfil.png";
 
-// Este é o seu segundo componente (Componentização)
-function ProjetoCard({ nome, tech }) {
+// REQUISITO 1: Componentização (Componente de Card)
+function ProjetoCard({ nome, tech, link }) {
   return (
-    <div style={{ border: '1px solid #646cff', padding: '10px', margin: '10px', borderRadius: '8px' }}>
+    <div className="card">
       <h3>{nome}</h3>
-      <p>Tecnologia: {tech}</p>
+      <p><strong>Tecnologia:</strong> {tech}</p>
+      <a href={link} target="_blank" rel="noreferrer">
+        <button className="btn-projeto">Ver Projeto</button>
+      </a>
     </div>
   );
 }
 
 function App() {
-  // Seu array de objetos (Renderização de Dados)
-  const listaDeProjetos = [
-    { id: 1, nome: "Primeiro Portfólio", tech: "HTML/CSS" },
-    { id: 2, nome: "Edição de Fotos com IA", tech: "Ferramentas IA" },
-    { id: 3, nome: "Projeto Atual", tech: "React + Vite" }
+  const [darkMode, setDarkMode] = useState(false);
+
+  // REQUISITO 2: Renderização de Dados (Array de objetos)
+  const meusProjetos = [
+    { id: 1, nome: "Meu Portfólio", tech: "React + Vite", link: "https://github.com/" },
+    { id: 2, nome: "Projeto de Sistemas", tech: "HTML/CSS", link: "https://github.com/" },
+    { id: 3, nome: "MVP Pedagogia", tech: "JavaScript", link: "https://github.com/" }
   ];
 
   return (
-    <div className="App">
-      <h1>Meu Portfólio em React</h1>
-      <p>Desenvolvido por Maria</p>
-      
-      <div className="container-projetos">
-        {/* Renderizando a lista dinamicamente */}
-        {listaDeProjetos.map((projeto) => (
-          <ProjetoCard key={projeto.id} nome={projeto.nome} tech={projeto.tech} />
-        ))}
+    <div className={darkMode ? "app dark-mode" : "app light-mode"}>
+      <header className="cabecalho">
+        <button onClick={() => setDarkMode(!darkMode)} className="btn-tema">
+          {darkMode ? "☀️ Modo Claro" : "🌙 Modo Escuro"}
+        </button>
+      </header>
+
+      <div className="container">
+        {/* Foto redonda e pequena */}
+        <img src={minhaFoto} alt="Maria de Jesus" className="foto-perfil-pequena" />
+        
+        <h1 className="titulo-principal">Maria de Jesus</h1>
+        <p className="descricao">Estudante de Sistemas para Internet e Pedagogia</p>
+        
+        <hr className="divisor" />
+
+        <h2 className="subtitulo">Meus Projetos</h2>
+        
+        <div className="lista-projetos">
+          {/* Renderizando os projetos dinamicamente com .map() */}
+          {meusProjetos.map((projeto) => (
+            <ProjetoCard 
+              key={projeto.id}
+              nome={projeto.nome} 
+              tech={projeto.tech} 
+              link={projeto.link} 
+            />
+          ))}
+        </div>
+
+        <footer className="rodape">
+          <p>Maria de Jesus • Desenvolvido em 2026</p>
+        </footer>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
